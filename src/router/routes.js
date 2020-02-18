@@ -27,6 +27,6 @@ export default[
     },
     {
         path: '/',
-        redirect: '/homepage'
+        redirect: '/home'
     },
 ]

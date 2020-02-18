@@ -36,29 +36,28 @@ export default {
 </script>
 
 <style lang='stylus' rel='stylesheet/stylus'>
+  // @import '../../common/stylus/mixins.styl'
   .active
     color #DD1A21
   .footer
     display flex
-    justify-content space-around
+    position fixed
     width 100%
     height 49px
-    position absolute
     left 0
     bottom 0
+    box-sizing border-box
     background #fff
+    // top-border-1px(#eee)
     .homeNavigation
-      display inline-block
-      position relative
-      text-align center
-      box-sizing border-box 
       font-size 14px
+      display flex
+      flex-direction column
+      text-align center
+      line-height 49px
       i 
-        display block
         height 20px
         width 20px
-        margin 0 auto 2px
-        line-height 20px
         
        
 
