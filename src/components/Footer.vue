@@ -1,23 +1,23 @@
 <template>
   <div class="footer">
     <div class="homeNavigation" :class="{active: $route.path === '/home'}" @click="goPath('/home')">
-      <i class="icon-home"></i>
+      <i class="iconfont icon-home"></i>
       <span>首页</span>
     </div>
     <div class="homeNavigation" :class="{active: $route.path === '/sort'}" @click="goPath('/sort')">
-      <i class="icon-sort1"></i>
+      <i class="iconfont icon-sort1"></i>
       <span>分类</span>
     </div>
     <div class="homeNavigation" :class="{active: $route.path === '/worthbuy'}" @click="goPath('/worthbuy')">
-      <i class="icon-buy"></i>
+      <i class="iconfont icon-buy"></i>
       <span>值得买</span>
     </div>
     <div class="homeNavigation" :class="{active: $route.path === '/cart'}" @click="goPath('/cart')">
-      <i class="icon-cart2"></i>
+      <i class="iconfont icon-cart2"></i>
       <span>购物车</span>
     </div>
     <div class="homeNavigation" :class="{active: $route.path === '/personal'}" @click="goPath('/personal')">
-      <i class="icon-Personal"></i>
+      <i class="iconfont icon-Personal"></i>
       <span>个人</span>
     </div>
   </div>
@@ -52,14 +52,14 @@ export default {
       position relative
       text-align center
       box-sizing border-box 
-      text-align center
+      font-size 14px
       i 
         display block
         height 20px
         width 20px
-        margin-bottom 2px
-      span 
-        font-size 14px
+        margin 0 auto 2px
+        line-height 20px
+        
        
 
 
