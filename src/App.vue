@@ -6,7 +6,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import Footer from './components/Footer'//引入底部组件
+  import Footer from './components/Footer/Footer'//引入底部组件
   export default {
     components:{//注册组件
       Footer

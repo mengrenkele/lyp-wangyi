@@ -36,10 +36,11 @@ export default {
 </script>
 
 <style lang='stylus' rel='stylesheet/stylus'>
-  // @import '../../common/stylus/mixins.styl'
+  @import '../../common/stylus/mixins.styl'
   .active
     color #DD1A21
   .footer
+    top-border-1px(#eee)
     display flex
     position fixed
     width 100%
@@ -48,16 +49,17 @@ export default {
     bottom 0
     box-sizing border-box
     background #fff
-    // top-border-1px(#eee)
     .homeNavigation
       font-size 14px
       display flex
       flex-direction column
+      width 20%
+      height 49px
       text-align center
-      line-height 49px
+      line-height 15px
       i 
-        height 20px
-        width 20px
+        font-size 20px
+        line-height 25px
         
        
 
