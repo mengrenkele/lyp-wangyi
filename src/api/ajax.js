@@ -10,7 +10,6 @@ const instance  = axios.create({
 instance.interceptors.request.use(config => {
     //将config的请求参数json格式 转换成url-ending格式
     config.data = qs.stringify(config.data)
-
     return config
 })
 
@@ -20,7 +19,6 @@ instance.interceptors.response.use(
     response => {
         return response.data
     },
-
     //响应失败,返回错误信息
     error => {
         console.log(error.message)

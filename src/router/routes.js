@@ -3,6 +3,8 @@ import Sort from '../pages/Sort/Sort.vue'
 import WorthBuy from '../pages/WorthBuy/WorthBuy.vue'
 import Cart from '../pages/Cart/Cart.vue'
 import Personal from '../pages/Personal/Personal.vue'
+import Search from '../pages/Search/Search.vue'
+import Login from '../pages/Login/Login.vue'
 
 export default[
     {
@@ -24,6 +26,14 @@ export default[
     {
         path:'/personal',
         component: Personal
+    },
+    {
+        path:'/search',
+        component: Search
+    },
+    {
+        path:'/login',
+        component: Login
     },
     {
         path: '/',

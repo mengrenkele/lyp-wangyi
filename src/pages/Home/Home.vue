@@ -1,3 +1,7 @@
+/* eslint-disable vue/no-duplicate-attributes */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars */
 <template>
   <div id="homeContainer">
       <!-- 头部导航 -->
@@ -7,32 +11,51 @@
               <a class="logo" href="http://localhost:8080/">
                 <img src="//yanxuan-static.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/indexLogo-a90bdaae6b.png?imageView&type=webp" alt="">
               </a>
-              <div class="topSearch" @click="seachComd">
+              <div class="topSearch" @click="$router.push('/search')">
                   <i class="iconfont icon-seachx"></i>
                   <span class="placeholder">搜索商品,共20421件商品</span>
               </div>
-              <div class="loginBtn">登录</div>
+              <div class="loginBtn" @click="$router.push('/login')">登录</div>
           </div>
           <!-- 导航下部 -->
           <div class="navBtm">
-              <div class="navCategories">
-                      <div class="navCategoriesItem" :class="{active: $route.path==='/home'}">
-                        <span>推荐</span>
-                      </div>
-                      <div class="navCategoriesItem" :class="{active: $route.path==='/home'}">
-                        <span>推荐</span>
-                      </div>
-                      <div class="navCategoriesItem" :class="{active: $route.path==='/home'}">
-                        <span>推荐</span>
-                      </div>
-                      <div class="navCategoriesItem" :class="{active: $route.path==='/home'}">
-                        <span>推荐</span>
-                      </div>
+              <div class="sortContainer">
+                  <ul class="navCategories">
+                          <li class="navCategoriesItem" :class="{active: $route.path==='/home'}"
+                          @click="$router.push('/')"
+                          >
+                            <span>推荐</span>
+                          </li>
+                          <li v-for="(sortData,index) in goodsSort" :key="index"
+                          class="navCategoriesItem" :class="{active: isIndex===index}"
+                          @click="goCorTitem(sortData.id)"
+                          >
+                            <span>{{sortData.name}}</span>
+                          </li>
+                  </ul>
               </div>
-              <div class="iconOpen">
-                  <img src="//yanxuan-static.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/arrow-down-3-9b31adfa37.png?imageView&type=webp" alt="">
+              <div class="iconOpen" @click="changeIsShow">
+                <!-- :class='["classify",isShow===true ? "rotateC" : "rotateA"]'  类名的三点运算符表达式，vue2.0就有 -->
+                  <img :class='["classify",isShow===true ? "rotateC" : "rotateA"]'
+                  src="//yanxuan-static.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/arrow-down-3-9b31adfa37.png?imageView&type=webp" alt="">
               </div>
-          </div>
+              <div class="sort-mask" v-show="isShow">
+                <div class="mask-title">
+                  <span>全部频道</span>
+                </div>
+                <ul class="mask-sortUl">
+                  <li class="mask-sortItem" @click="$router.push('/search')" :class="{active: $route.path==='/home'}">
+                    <span>推荐</span>
+                  </li>
+                  <li class="mask-sortItem" v-for="(sortData,index) in goodsSort" :key="index"
+                  @click="goCorTitem(sortData.id)" :class="{active: isIndex===index}"
+                  >
+                    <span>{{sortData.name}}</span>
+                  </li>
+                </ul>
+                <div class="mask-back"></div>
+              </div>
+        </div>
       </div>
       <!-- 轮播图部分 -->
       <div class="swiper-container">
@@ -202,7 +225,7 @@
       <div class="goToTop">
           <i class="iconfont icon-leftarrow-copy"></i>
       </div>
-      <!-- 底部说明 -->
+      <!-- 底部声明 -->
       <div class="ftExplain">
           <div class="download">
               <div class="phone">下载APP</div>
@@ -218,12 +241,67 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import Bscroll from 'better-scroll'
   export default {
+    data () {
+      return {
+        homeDatas: [], //首页总数据
+        goodsSort:[],  //商品分类的信息
+        isIndex: null,  //获取对应的下标，来实现高亮显示
+        isShow: false  //小箭头是否旋转和遮罩层是否显示的标识，默认false
+      }
+    },
+
+    async mounted () {
+      //页面加载，发送请求，获取数据
+      let result = await this.$API.getHomeDatas()
+      console.log(result)
+      //将数据存到状态中
+      this.homeDatas = result.data[0]
+      this.goodsSort = result.data[1]
+      // 创建BScroll实例
+      new Bscroll('.sortContainer',{
+        scrollX: true, //开启横向滑动
+        click: true, //允许点击
+        probeType: 2,
+        momentum: true
+      })
+    },
+    methods: {
+      //点击分类导航，进入各分类详情页的方法
+      goCorTitem(id){
+        window.location.href = `https://m.you.163.com/item/list?categoryId=${id}`
+        //获取此链接在goodsSort中对应的下标
+        let index = this.getIndex(id)
+        this.isIndex = index
+      },
+      //点击导航小箭头事件
+      changeIsShow(){
+        this.isShow = !this.isShow
+      }
+
+    },
+    computed: {
+      // eslint-disable-next-line no-unused-vars
+      getIndex(id) {//传入id
+        return this.goodsSort.findIndex((item,id) => {//使用findIndex()获取下标
+          return item.id === id
+        })
+    },
   }
+}
 </script>
 
 <style lang='stylus' rel='stylesheet/stylus'>
   @import '../../common/stylus/mixins.styl'
+  .active
+    border-bottom 2px solid #DD1A21
+  .rotateC
+    transform rotate(180deg)
+    transition all .4s linear 0s
+  .rotateA
+    transform rotate(-0deg)
+    transition all .4s linear 0s
   #homeContainer
     width 100%
     height 1000px
@@ -286,25 +364,72 @@
         width 100%
         height 30px
         line-height 30px
-        text-align center
         position relative
-        .navCategories
-          display flex
-          .navCategoriesItem
-             display inline-block
-             width 44px
-             &.active
-               border-bottom 1px solid #DD1A21
+        .sortContainer
+          overflow hidden
+          width 325px
+          height 30px
+          .navCategories
+            // width 790px  如果不设置宽度，会继承父级的宽；如果设置了宽度，又做不到使宽度靠内容撑开
+            // white-space normal
+            width 750px
+            height 28px
+            display flex
+            .navCategoriesItem
+              margin-left 12px
+              padding 0 8px
+              font-size 14px
+              font-weight normal
+        //小箭头
         .iconOpen
+          text-align center
           position absolute
           right 0
           bottom 0
           width 50px
-          box-sizing border-box
+          z-index 5
+          // box-sizing border-box
           img
-            // margin-top 7px //这里给img设置margin和padding失效,和夫级的绝对定位
+            // margin-top 7px //这里给img设置margin和padding失效,还有父级的绝对定位
             width 15px
             height 15px
+        //遮罩层
+        .sort-mask
+          position absolute
+          left 0
+          top 0
+          width 375px
+          // height 186px 
+          z-index 3
+          .mask-title
+            width 100%
+            height 30px
+            padding  0 15px
+            line-height 30px
+            font-size 14px
+            background-color #fff
+          .mask-sortUl
+            width 100%
+            height 156px
+            padding-top 12px
+            // display flex
+            // white-space pre-wrap
+            background-color #fff
+            .mask-sortItem
+              display inline-block
+              width 75px
+              height 28px
+              text-align center
+              line-height 28px
+              background-color #fafafa
+              font-size 12px
+              margin 0 0 20px 15px
+              border 1px solid #ccc
+              box-sizing border-box
+          .mask-back
+            width 100%
+            height 375px
+            background rgba(0,0,0,0.5)
     // 轮播图
     .swiper-container
       margin-top 74px
