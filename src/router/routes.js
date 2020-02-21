@@ -5,6 +5,7 @@ import Cart from '../pages/Cart/Cart.vue'
 import Personal from '../pages/Personal/Personal.vue'
 import Search from '../pages/Search/Search.vue'
 import Login from '../pages/Login/Login.vue'
+import NewUser from '../pages/NewUser/NewUser.vue'
 
 export default[
     {
@@ -34,6 +35,10 @@ export default[
     {
         path:'/login',
         component: Login
+    },
+    {
+        path:'/newuser',
+        component: NewUser
     },
     {
         path: '/',

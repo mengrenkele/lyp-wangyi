@@ -19,14 +19,14 @@
           </div>
           <!-- 导航下部 -->
           <div class="navBtm">
-              <div class="sortContainer">
+              <div class="sortContainer" >
                   <ul class="navCategories">
                           <li class="navCategoriesItem" :class="{active: $route.path==='/home'}"
                           @click="$router.push('/')"
                           >
                             <span>推荐</span>
                           </li>
-                          <li v-for="(sortData,index) in goodsSort" :key="index"
+                          <li  v-for="(sortData,index) in goodsSort" :key="index"
                           class="navCategoriesItem" :class="{active: isIndex===index}"
                           @click="goCorTitem(sortData.id)"
                           >
@@ -60,53 +60,63 @@
       <!-- 轮播图部分 -->
       <div class="swiper-container">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <img src="https://www.swiper.com.cn/templets/default/images/home/ipad.png" alt="">
+            <div class="swiper-slide" v-for="(pic, index) in homeDatas.focusList" :key="index">
+                <img :src="pic.picUrl" alt="">
             </div>
         </div>
+        <div class="swiper-pagination"></div>
        </div>
      <!-- 服务政策 -->
       <div class="servicePolicy">
           <ul class="servicePolicy-ul">
-              <li class="servicePolicyItem">
-                 <i class="iconfont icon-wordpress"></i> 
-                 <span>网易自营品牌</span>
-              </li>
-              <li class="servicePolicyItem">
-                  <i class="iconfont icon-shield1"></i> 
-                 <span>30天无忧退货</span>
-              </li>
-              <li class="servicePolicyItem">
-                  <i class="iconfont icon-money"></i> 
-                 <span>48小时快速退款</span>
+              <li class="servicePolicyItem" v-for="(item, index) in homeDatas.policyDescList" :key="index">
+                 <img class="iconfont" :src="item.icon" alt="">
+                 <span>{{item.desc}}</span>
               </li>
           </ul>
       </div>
       <!-- 商品模块 -->
       <div class="commodityCont">
           <!-- 商品分类列表 -->
-        <div class="listCommodity">
-            <ul class="listCommodity-ul">
-                <li class="listCommodityI">
-                    <img src="https://yanxuan.nosdn.127.net/c6fd8835a6400b7da7a016ad85506b69.png" alt="">
-                    <p>新品首发</p>
+        <div class="listCommodity" v-if="homeDatas">
+            <ul class="listCommodity-ul" v-if="homeDatas.kingKongModule">
+                <li class="listCommodityI" v-for="(item, index) in homeDatas.kingKongModule.kingKongList" :key="index"
+                @click="goCorTitem(item)"
+                >
+                    <img :src="item.picUrl" alt="">
+                    <p>{{item.text}}</p>
                 </li>
             </ul>
         </div>
         <!-- 主题商品导航 -->
         <div class="themeCommodity">
+          <a href="https://act.you.163.com/act/pub/rb10rnjzwE30.html">
             <div class="themeCommodityT">
-                    <img src="https://yanxuan.nosdn.127.net/5db28c137605ea7576c986e9c285e1c6.png?quality=75&type=webp&imageView&thumbnail=750x0" alt="">
+                    <img src="https://yanxuan.nosdn.127.net/5db28c137605ea7576c986e9c285e1c6.png" alt="">
             </div>
+            <!-- 这里小图片的轮播原理猜想：所有的小图片信息在一个数组中，先通过遍历获取到每一个元素信息，
+            再根据轮播到的图片的index去配对数组元素的下标获取对应的图片路径，再将路径赋给img的src -->
+            <img class="smallPic" src="https://yanxuan-item.nosdn.127.net/e272316176963bd54052126a7657bbb9.png" alt="">
+          </a>
             <div class="themeCommoditB">
                 <div class="themeCommoditB-one">
-                    <img src="https://yanxuan.nosdn.127.net/a4187bffa2a0431ec5d6e2dd1070d6c5.gif?imageView&quality=75" alt="">
+                  <a href="https://act.you.163.com/pub/L62FoIBG4A.html">
+                    <img src="https://yanxuan.nosdn.127.net/be539f8235a88cd06a43227aeaf4df02.gif" alt="">
+                  </a>
                 </div>
                 <div class="themeCommodityB-more">
-                        <img src="https://yanxuan.nosdn.127.net/15b56691109bba3adf6156fd44f14073.png?quality=75&type=webp&imageView&thumbnail=375x0" alt="">
-                        <img src="https://yanxuan.nosdn.127.net/15b56691109bba3adf6156fd44f14073.png?quality=75&type=webp&imageView&thumbnail=375x0" alt="">
-                        <img src="https://yanxuan.nosdn.127.net/15b56691109bba3adf6156fd44f14073.png?quality=75&type=webp&imageView&thumbnail=375x0" alt="">
-                        <img src="https://yanxuan.nosdn.127.net/15b56691109bba3adf6156fd44f14073.png?quality=75&type=webp&imageView&thumbnail=375x0" alt="">
+                  <a href="https://act.you.163.com/act/pub/HW3LkZ184cR5.html">
+                      <img src="https://yanxuan.nosdn.127.net/28244c6ae7ef78424ea5317a0d72dd6a.png" alt="">
+                  </a>
+                  <a href="https://you.163.com/topic/v1/pub/p2tDbYocHKd2.html">
+                      <img src="https://yanxuan.nosdn.127.net/15b56691109bba3adf6156fd44f14073.png" alt="">
+                  </a>
+                  <a href="https://act.you.163.com/act/pub/KR5ebCKbCQtR.html">
+                      <img src="https://yanxuan.nosdn.127.net/83b35324b02e31aa202a12971fa7f8c3.png" alt="">
+                  </a>
+                  <a href="https://you.163.com/topic/v1/pub/NOvLN2wFt7PX.html">
+                      <img src="https://yanxuan.nosdn.127.net/2c98b2002572ec4cd0824bc810d7d31f.png" alt="">
+                  </a>
                 </div>
             </div>
         </div>
@@ -142,29 +152,18 @@
         <!-- 类目热销榜 -->
         <div class="hotList">
             <div class="hotList-title">类目热销榜</div>
-            <div class="hotListPages">
+            <div class="hotListPages" v-if="homeDatas">
                 <!-- 大类目榜 -->
-                <ul class="bigList">
-                    <li class="host">
-                            <img src="https://yanxuan-item.nosdn.127.net/a4c5c5c63d8e3595f15a95819b2cf758.png?quality=75&type=webp&imageView&thumbnail=200x200" alt="">
-                            <span>热销榜</span>
-                    </li>
-                    <li class="praise">
-                            <img src="https://yanxuan-item.nosdn.127.net/a4c5c5c63d8e3595f15a95819b2cf758.png?quality=75&type=webp&imageView&thumbnail=200x200" alt="">
-                            <span>好评榜</span>
-                    </li>
-                </ul>
-                <!-- 主题分类榜 -->
-                <ul class="sortList">
-                    <li class="sortThemeList">
-                        <div>酒水榜</div>
-                        <img src="https://yanxuan-item.nosdn.127.net/3bd7a2e27f9ced5f72d9ce4c069c7326.png?quality=75&type=webp&imageView&thumbnail=200x200" alt="">
+                <ul class="bigList" v-if="homeDatas.categoryHotSellModule">
+                    <li class="host" v-for="(hostItem, index) in homeDatas.categoryHotSellModule.categoryList" :key="index">
+                        <div>{{hostItem.categoryName}}</div>
+                        <img :src="hostItem.showPicUrl" alt="">
                     </li>
                 </ul>
             </div>
         </div>
         <!-- 限时购 -->
-        <div class="timeLimit">
+        <div class="timeLimit" v-if="homeDatas">
             <div class="timeLimitTitle">
                 <div class="countDown">
                     <span>限时购</span>
@@ -175,12 +174,12 @@
                     <i class="iconfont icon-icon_left_arrow"></i>
                 </div>
              </div>
-            <ul class="timeLimitCon">
-                <li class="timeLimitItem">
-                    <img src="https://yanxuan-item.nosdn.127.net/103e416266d7cbeaaf08dac08a2332e1.png?quality=75&type=webp&imageView&thumbnail=216x216" alt="">
+            <ul class="timeLimitCon" v-if="homeDatas.flashSaleModule">
+                <li class="timeLimitItem" v-for="(flashItem, index) in homeDatas.flashSaleModule.itemList" :key="index">
+                    <img :src="flashItem.showPicUrl" alt="">
                     <div class="price">
-                        <span class="newP">￥19.99</span>
-                        <span class="oldP">￥199.99</span>
+                        <span class="newP">￥{{flashItem.activityPrice}}</span>
+                        <span class="oldP">￥{{flashItem.originPrice}}</span>
                     </div>
                 </li>
             </ul>
@@ -195,34 +194,33 @@
                 </div>
             </div>
             <ul class="details">
-                <li class="detailsItem">
-                    <img src="https://yanxuan-item.nosdn.127.net/d691b12d383ea93c2108a383e2b1d3cc.png?type=webp&imageView&quality=65&thumbnail=330x330" alt="">
-                    <div class="introduce-text">杏杏杏杏杏杏杏杏周星星惺惺相惜该行星惺惺</div>
-                    <p>￥29.99</p>
-                    <div class="remark">
-                        <span>特价</span>
-                    </div>
+                <li class="detailsItem" v-for="(newItem, index) in newGoods" :key="index">
+                    <img :src="newItem.listPicUrl" alt="">
+                    <div class="introduce-text">{{newItem.name}}</div>
+                    <p>￥{{newItem.retailPrice}}</p>
+                    <span v-if="newItem.itemTagList.length>1">{{newItem.itemTagList[1].name}}</span>
                 </li>
             </ul>
         </div>
         <!-- 其它 -->
         <div class="other">
-            <ul class="other-ul">
-                <li class="otherItem">
-                        <h3>断货补单王</h3>
-                        <p>紧急补仓疯抢中</p>
-                        <img src="https://yanxuan-item.nosdn.127.net/1eecf74b769af3ed4c7817aeb5d6bb2b.png?quality=75&type=webp&imageView&thumbnail=150x150" alt="">
-                        <img src="https://yanxuan-item.nosdn.127.net/be4d030d4b4a8a4bf096714ec5b2a4aa.png?quality=75&type=webp&imageView&thumbnail=150x150" alt="">
+            <ul class="other-ul" v-if="homeDatas">
+                <li class="otherItem" v-for="(sceneItem, index) in otherdatas" :key="index">
+                    <h3>{{sceneItem.styleItem.title}}</h3>
+                    <p>{{sceneItem.styleItem.desc}}</p>
+                    <div v-for="(urlitem,index) in sceneItem.styleItem.picUrlList" :key="index">
+                      <img :src="urlitem" alt="">
+                    </div>
                 </li>
             </ul>
         </div>
       </div>
       <!-- 新用户注册导航 -->
       <div class="newUserGuide">
-          <i class="iconfont icon-Gift-Box2"></i>
+          <i class="iconfont icon-Gift-Box2" @click="$router.push('/newuser')"></i>
       </div>
       <!-- 回到顶部 -->
-      <div class="goToTop">
+      <div class="goToTop" v-if="isShowToTop" @click="toTop">
           <i class="iconfont icon-leftarrow-copy"></i>
       </div>
       <!-- 底部声明 -->
@@ -242,13 +240,22 @@
 
 <script type="text/ecmascript-6">
   import Bscroll from 'better-scroll'
+  import Swiper from 'swiper'
+  import 'swiper/css/swiper.min.css'
+//   import {
+//     SAVE_OTHERDATAS
+// } from '../../store/state_type'
+
   export default {
     data () {
       return {
         homeDatas: [], //首页总数据
         goodsSort:[],  //商品分类的信息
         isIndex: null,  //获取对应的下标，来实现高亮显示
-        isShow: false  //小箭头是否旋转和遮罩层是否显示的标识，默认false
+        isShow: false,  //小箭头是否旋转和遮罩层是否显示的标识，默认false
+        newGoods: [],   //新品首发数据
+        otherdatas:[],  //断货补单王数据
+        isShowToTop: false  //是否显示回顶部的按钮的标识
       }
     },
 
@@ -259,12 +266,34 @@
       //将数据存到状态中
       this.homeDatas = result.data[0]
       this.goodsSort = result.data[1]
-      // 创建BScroll实例
-      new Bscroll('.sortContainer',{
-        scrollX: true, //开启横向滑动
-        click: true, //允许点击
-        probeType: 2,
-        momentum: true
+      
+      //获取新品首发数据
+      this.getNewGoods(this.homeDatas)
+      //获取断货补单王数据
+      this.getOtherdatas(this.homeDatas)
+      // if(this.homeDatas){
+      //   // let otherdatas = this.homeDatas.sceneLightShoppingGuideModule
+      //   this.$store.dispatch(SAVE_OTHERDATAS,this.homeDatas.sceneLightShoppingGuideModule)
+      // }
+
+      //给window绑定监听
+      window.addEventListener('scroll', this.getViewTop)
+      
+      this.$nextTick(()=>{
+        new Bscroll('.sortContainer',{
+          // 创建BScroll实例
+          scrollX: true, //开启横向滑动
+          click: true, //允许点击
+          probeType: 2,
+          momentum: true
+        })
+        //创建Swiper实例
+        new Swiper('.swiper-container',{
+          pagination: {
+            el: '.swiper-pagination', //是否需要分页器
+          },
+          loop: true, //是否循环
+        })
       })
     },
     methods: {
@@ -278,8 +307,43 @@
       //点击导航小箭头事件
       changeIsShow(){
         this.isShow = !this.isShow
-      }
+      },
+      //获取新品首发数据
+      getNewGoods (homeDatas) {
+        if(homeDatas.newItemList) {
+          let newGoods = homeDatas.newItemList.splice(2,7)
+          this.newGoods = newGoods
+          console.log(newGoods)
+        }
+      },
+      //获取断货补单王数据
+      getOtherdatas(homeDatas){
+        if(homeDatas) {
+          this.otherdatas = homeDatas.sceneLightShoppingGuideModule
+        }
+      },
 
+      //获取 页面顶端到视口顶端的距离和获取视口高度,改变回顶部的按钮的标识
+      getViewTop(){ //需要实时监视
+        let pageViewTop = document.documentElement.scrollTop || document.body.scrollTop
+        let viewHeight = window.innerHeight
+        if(pageViewTop >= viewHeight){
+          this.isShowToTop = true
+        }else{
+          this.isShowToTop = false
+        }
+      },
+      //点击回到顶部的方法
+      toTop(){
+        //获取 页面顶端到视口顶端的距离
+        // let page-viewTop = document.documentElement.scrollTop || document.body.scrollTop
+        // //获取视口高度
+        // let viewHeight = window.innerHeight
+        // //当  页面顶端到视口顶端的距离 大于等于 视口高度时， 显示回顶按钮
+        // this.isShowToTop = true
+        //使组件 页面顶端到视口顶端的距离 等于 0px
+        document.documentElement.scrollTop = 0
+      }
     },
     computed: {
       // eslint-disable-next-line no-unused-vars
@@ -287,8 +351,12 @@
         return this.goodsSort.findIndex((item,id) => {//使用findIndex()获取下标
           return item.id === id
         })
+      }
     },
-  }
+    //在组件卸载时移除window监听
+    destroyed(){
+      window.removeEventListener('scroll', this.getViewTop); 
+    }
 }
 </script>
 
@@ -304,7 +372,6 @@
     transition all .4s linear 0s
   #homeContainer
     width 100%
-    height 1000px
     font-family PingFangSC-Regular
     background-color #eee
     //顶部导航
@@ -318,6 +385,7 @@
       left 0
       background-color #fff
       z-index 99
+      box-sizing border-box
       //导航上部
       .navTop
         width 100%
@@ -327,6 +395,7 @@
         display flex
         justify-content round
         font-size 14px
+        box-sizing border-box
         .logo
           img 
             width 69px
@@ -354,7 +423,7 @@
           text-align center
           border 1px solid #DD1A21 
           border-radius 5px
-          width 37px
+          width 33px
           height 20px
           line-height 20px
           font-size 12px  
@@ -452,47 +521,74 @@
         .servicePolicyItem
           width 33.3%
           height 18px
+          line-height 18px
           .iconfont
+            width 16px
+            height 16px
             color #DD1A21
+            // font-size:0;
+            vertical-align:top; //虽然实现了效果，但是并不知道为什么？  ：vertical-align规定元素垂直对齐的方式；vertical-align:top表示元素的顶端与行中最高元素的顶端对齐（这里是说横向对齐的方式吗）
+            // line-height:0;
             margin-right 2px
+            margin-top 2px
           span 
+            // display inline-block
             color #333
     //商品分类列表
     .listCommodity 
       width 100%
       height 186.5px
+      background-color #fff
       .listCommodity-ul
         width 100%
         height 170px
         margin-bottom 10px
-        display flex
+        // display flex
         .listCommodityI
+          display inline-block
           width 20%
           height 78px
           text-align center
           font-size 12px
           margin-top 5px
+          box-sizing border-box
           img 
             width 55px
             height 55px
             margin-bottom 5px
+            box-sizing border-box
     //主题商品导航
     .themeCommodity
       width 100%
       height 424px
       background-color #1674e3
+      margin-bottom 10px
       box-sizing border-box
-      .themeCommodityT
-        img 
-          width 100%
-          height 120px
-          margin-bottom 8px
+      >a
+        position relative
+        .smallPic
+          height 84px
+          width 84px
+          position absolute
+          left 38px 
+          top 20px
+        .themeCommodityT
+          // a
+          //   display inline
+          //   box-sizing border-box 
+          img 
+            width 100%
+            height 120px
+            margin-bottom 8px
       .themeCommoditB
         width 100%   
         height 304px
         padding 10px
         box-sizing border-box
         .themeCommoditB-one
+          // a
+          //   display inline 
+          //   box-sizing border-box
           img 
             width 100%
             height 80px
@@ -500,20 +596,25 @@
           width 100%
           height 190px
           //   display flex
-          img
-            box-sizing border-box
-            height 93px
+          a
+            display inline-block
+            // box-sizing border-box
             width 175.5px
+            height 93px
             &:nth-child(2n-1)
               margin 4px 4px 0 0
             &:nth-child(2n)
               margin-top 4px     
+            img
+              // box-sizing border-box
+              height 100%
+              width 100%
     //新人专享
     .newUser
       width 100%
       height 279px
       background-color #fff
-      margin 10px 0
+      margin-bottom 10px
       padding 0 15px
       box-sizing border-box
       .title
@@ -602,7 +703,9 @@
               text-align center
               line-height 16px
     //类目热销榜
-    .hotList
+    .hotList 
+      margin-bottom 10px
+      background-color #fff
         // 标题
       .hotList-title
         width 375px
@@ -618,12 +721,27 @@
         width 375px
         height 310px
         padding 0 20px 20px 30px
+        background-color #fff
         box-sizing border-box
         //大的热榜模块
         .bigList
-          display flex
-          >li
-            width 170px
+          .host
+            display inline-block
+            width 75px
+            height 90px
+            background-color #F5F5F5
+            text-align center
+            margin 0 5px 5px 0
+            box-sizing border-box
+            div
+              font-size 12px
+              margin 5px 0
+              box-sizing border-box
+            img
+              width 60px
+              height 60px
+          li:nth-child(1),li:nth-child(2)
+            width 155px
             height 100px
             background-color #F9F3E4
             margin 0 5px 5px 0
@@ -635,10 +753,11 @@
               position absolute
               right 0
               top 0
-            span
+            div
               font-size 14px
               display inline-block
-              margin 33px 0 0 12px
+              margin-top 33px
+              margin-left -50%
               box-sizing border-box
               position relative
               &:before
@@ -650,27 +769,13 @@
                 position absolute
                 left 0 
                 top 24px
-          li:last-child
+          li:nth-child(2)
             background-color #EBEFF6
         //主题榜
-        .sortList
-          display flex
-          text-align center
-          .sortThemeList
-            width 84.5px
-            height 90px
-            background-color #F5F5F5
-            margin 0 5px 5px 0
-            box-sizing border-box
-            div
-              font-size 12px
-              margin 5px 0
-              box-sizing border-box
-            img
-              width 60px
-              height 60px
     //限时购
     .timeLimit
+      margin-bottom 10px
+      background-color #fff
       .timeLimitTitle
         height 50px
         width 375px
@@ -698,10 +803,11 @@
       .timeLimitCon
         width 375px
         height 300px
-        display flex
+        // display flex
         padding 0 5px 0 15px
         box-sizing border-box
         .timeLimitItem
+          display inline-block
           width 108px
           height 150px
           margin-right 10px
@@ -727,6 +833,7 @@
               text-decoration line-through
     //新品首发
     .newProducts
+      margin-bottom 10px
       //标题
       .newProductsTitle
         height 50px
@@ -751,16 +858,19 @@
       .details
         width 375px
         height 398px
-        display flex
+        // display flex
         padding-left 15px
         box-sizing border-box
+        background-color #fff
         .detailsItem
+          display inline-block
           width 108px
-          height 199px
+          // height 199px
           background-color #fff
           margin-right 10px
           padding-bottom 6.5px
           box-sizing border-box
+          vertical-align top //vertical-align元素垂直排列方式属性，值为top表示元素顶端于行中最高元素的顶端对齐----变为横向排列方式
           img 
             width 108px
             height 108px
@@ -778,27 +888,28 @@
             dispaly block
             font-size 16px
             color #DD1A21
-          .remark
+          span
             height 15px
             margin-top 7px
-            span
-              //   display block
-              padding 2px 2px
-              border 1px solid #DD1A21 
-              border-radius 8px
-              font-size 12px  
-              color #DD1A21
-              background rgba(255,255,255,.7)  
+            display inline-block
+            padding 2px 2px
+            border 1px solid #DD1A21 
+            border-radius 8px
+            font-size 12px  
+            color #DD1A21
+            background rgba(255,255,255,.7)  
     //其他 
     .other
       .other-ul
         width 375px
         height 288px
         margin 0 0 20px
-        padding 5px 15px 13px
+        padding 5px 15px 10px
         background-color #fff
+        box-sizing border-box
         .otherItem
-          width 171px
+          display inline-block
+          width 170px
           height 132px
           background-color #f5f5f5
           margin 2px 0 0 2px
@@ -807,12 +918,18 @@
           h3
             font-size 16px
           p
+            line-height 30px
             font-size 12px
-            color #7f7f7f 
-          img
-            width 75px
-            height 75px
-            margin-right 2px  
+            color #7f7f7f
+          div
+            // margin-top 5px 
+            display inline-block 
+            box-sizing border-box
+            img
+              width 70px
+              height 75px
+              margin-right 2px 
+              box-sizing border-box 
     // 新用户注册导航   
     .newUserGuide
       width 50px
