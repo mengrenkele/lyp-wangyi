@@ -90,7 +90,21 @@
    font-weight: normal;
    vertical-align: baseline;
    list-style-type: none;
+   text-decoration: none;
  }
+ /* a:link {
+  color: #000000;
+ }
+ a:visited {
+  color: #000000;
+ }
+ a:hover {
+  color: #000000;
+ } */
+a {
+  text-decoration: none;
+  color: #333;
+}
  
  /* HTML5 display-role reset for older browsers */
  article,
